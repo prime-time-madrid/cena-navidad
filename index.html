@@ -21,7 +21,7 @@ body {
 }
 
 header {
-    background-color: #007bff;
+    background-image: url('prime.jpg')
     color: #fff;
     text-align: center;
     padding: 20px;
@@ -131,6 +131,62 @@ input[type="text"] {
     cursor: pointer;
 }
 
+    /* Estilos para la sección .freelance */
+.freelance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.freelance-item {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: changeDiv 6s linear infinite;
+    width: 100%;
+}
+
+.freelance-item h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.freelance-item img {
+    max-width: 100%;
+    max-height: 200px;
+}
+
+/* Animación de cambio de div */
+@keyframes changeDiv {
+    0%, 100% {
+        opacity: 0;
+    }
+    11%, 33% {
+        opacity: 1;
+    }
+    44%, 100% {
+        opacity: 0;
+    }
+}
+
+/* Mostrar cada div uno tras otro */
+.freelance-item:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.freelance-item:nth-child(2) {
+    animation-delay: 6s;
+}
+
+.freelance-item:nth-child(3) {
+    animation-delay: 12s;
+}
+
 </style>
 </head>
 <body>
@@ -138,14 +194,27 @@ input[type="text"] {
         <h1>Cena de Empresa Prime Time en Madrid</h1>
         <p>¡Una noche de networking y diversión para freelancers!</p>
     </header>
+ <section class="freelance">
+        <div class="freelance-item">
+            <h1>Queremos que pases de esto</h1>
+            <img src="freelance.png" alt="Imagen 1">
+        </div>
+        <div class="freelance-item">
+            <h1>a Esto, una cena de Freelance</h1>
+            <img src="grupo.png" alt="Imagen 2">
+        </div>
+        <div class="freelance-item">
+            <h1>Cesta de Navidad, Regalos, Mentoring y Cena de Calidad. ¿Estás preparado?</h1>
+        </div>
+    </section>
+
     <div class="wheel-container">
         <div class="wheel" id="wheel"></div>
     </div>
     <button id="spin-btn">Probar Suerte</button>
 
     <div class="popup" id="popup">
-        <h2>¡Felicidades!</h2>
-        <p>Has ganado:</p>
+        <h2>🎉¡Felicidades!🎉</h2>
         <p id="prize"></p>
         <input type="text" id="nombre" placeholder="Nombre">
         <input type="text" id="telefono" placeholder="Teléfono">
