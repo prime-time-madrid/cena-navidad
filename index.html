@@ -78,7 +78,58 @@ footer {
 }
 
 /* Estilos adicionales según tus necesidades */
+.wheel-container {
+    display: inline-block;
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
 
+.wheel {
+    width: 100%;
+    height: 100%;
+    background-image: url('wheel.png'); /* Sustituye 'wheel.png' con tu imagen de ruleta */
+    background-size: cover;
+    transform-origin: center center;
+    transition: transform 6s ease-in-out;
+}
+
+#spin-btn {
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#participar-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 </style>
 </head>
@@ -87,18 +138,93 @@ footer {
         <h1>Cena de Empresa Prime Time en Madrid</h1>
         <p>¡Una noche de networking y diversión para freelancers!</p>
     </header>
-    <section class="main-content">
-        <h2>Disfruta de la Cena de empresa Prime Time donde disfrutaremos como si fueramos compañeros de trabajo</h2>
-        <p>¿Eres un freelance en Madrid que busca una experiencia única para celebrar el fin de año con colegas y compañeros de trabajo? ¡Estás en el lugar adecuado! En esta Cena de Empresa Prime Time, te invitamos a unirte a nosotros para una noche llena de diversión, networking y camaradería.</p>
-        <!-- Más contenido aquí -->
-    </section>
-    <section class="reservation">
-        <h3>Reserva tu plaza</h3>
-        <p>No te pierdas la oportunidad de vivir una Cena de Empresa Prime Time como ningún otro freelance en Madrid. Las plazas son limitadas, así que asegura tu lugar cuanto antes.</p>
-        <a href="#" class="btn-reserva">Reservar Ahora</a>
-    </section>
+    <div class="wheel-container">
+        <div class="wheel" id="wheel"></div>
+    </div>
+    <button id="spin-btn">Probar Suerte</button>
+
+    <div class="popup" id="popup">
+        <h2>¡Felicidades!</h2>
+        <p>Has ganado:</p>
+        <p id="prize"></p>
+        <input type="text" id="nombre" placeholder="Nombre">
+        <input type="text" id="telefono" placeholder="Teléfono">
+        <button id="participar-btn">Participar</button>
+    </div>
+
     <footer>
         <p>&copy; 2023 Cena de Empresa Prime Time - Madrid</p>
     </footer>
+    <script type="module">
+const wheel = document.getElementById('wheel');
+const spinBtn = document.getElementById('spin-btn');
+const popup = document.getElementById('popup');
+const prizeText = document.getElementById('prize');
+const nombreInput = document.getElementById('nombre');
+const telefonoInput = document.getElementById('telefono');
+const participarBtn = document.getElementById('participar-btn');
+
+const options = [
+    'Sesión de Fotografía 300€',
+    'Landing Page interactivo 600€',
+    'Consultoría Performance 350€',
+    'Gestión Semanal RRSS 450€',
+    'Publicidad + Vídeo 650€',
+];
+
+let spinning = false;
+
+spinBtn.addEventListener('click', () => {
+    if (!spinning) {
+        const randomDegree = Math.floor(Math.random() * 360);
+        const spinDuration = 6000; // Tiempo en milisegundos para una vuelta completa
+
+        spinning = true;
+        wheel.style.transition = `transform ${spinDuration}ms cubic-bezier(0.17, 0.67, 0.83, 0.67)`;
+        wheel.style.transform = `rotate(${randomDegree}deg)`;
+
+        setTimeout(() => {
+            const prizeIndex = Math.floor(randomDegree / (360 / options.length));
+            const prize = options[prizeIndex];
+            prizeText.textContent = `Has ganado: ${prize}`;
+            popup.style.display = 'block';
+
+            // Desactivar la opción seleccionada
+            options.splice(prizeIndex, 1);
+            updateOptionsDropdown();
+
+            spinning = false;
+        }, spinDuration);
+    }
+});
+
+function updateOptionsDropdown() {
+    const select = document.getElementById('prize-dropdown');
+    select.innerHTML = '';
+    options.forEach((option, index) => {
+        const optionElement = document.createElement('option');
+        optionElement.value = index;
+        optionElement.textContent = option;
+        select.appendChild(optionElement);
+    });
+}
+
+participarBtn.addEventListener('click', () => {
+    const nombre = nombreInput.value;
+    const telefono = telefonoInput.value;
+    const premio = prizeText.textContent;
+
+    // Aquí puedes realizar la lógica para guardar los datos del participante
+    // y desactivar la opción ganadora en la base de datos o en el objeto 'options'
+
+    // Restablecer el formulario
+    nombreInput.value = '';
+    telefonoInput.value = '';
+
+    // Cerrar el popup
+    popup.style.display = 'none';
+});
+
+</script>
 </body>
 </html>
