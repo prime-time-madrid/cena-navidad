@@ -160,31 +160,6 @@ input[type="text"] {
     max-height: 200px;
 }
 
-/* Animación de cambio de div */
-@keyframes changeDiv {
-    0%, 100% {
-        opacity: 0;
-    }
-    11%, 33% {
-        opacity: 1;
-    }
-    44%, 100% {
-        opacity: 0;
-    }
-}
-
-/* Mostrar cada div uno tras otro */
-.freelance-item:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.freelance-item:nth-child(2) {
-    animation-delay: 6s;
-}
-
-.freelance-item:nth-child(3) {
-    animation-delay: 12s;
-}
 
 </style>
 </head>
@@ -292,6 +267,23 @@ participarBtn.addEventListener('click', () => {
     // Cerrar el popup
     popup.style.display = 'none';
 });
+
+
+        const freelanceItems = document.querySelectorAll('.freelance-item');
+let currentIndex = 0;
+
+function showNextItem() {
+    freelanceItems[currentIndex].style.display = 'none';
+    currentIndex = (currentIndex + 1) % freelanceItems.length;
+    freelanceItems[currentIndex].style.display = 'block';
+}
+
+// Mostrar el primer div al cargar la página
+freelanceItems[currentIndex].style.display = 'block';
+
+// Cambiar de div cada 6 segundos
+setInterval(showNextItem, 6000);
+
 
 </script>
 </body>
